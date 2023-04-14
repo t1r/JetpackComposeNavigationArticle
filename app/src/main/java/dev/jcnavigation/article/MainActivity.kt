@@ -1,43 +1,40 @@
 package dev.jcnavigation.article
 
+import android.content.Context
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavDestination
+import androidx.navigation.compose.rememberNavController
+import dev.jcnavigation.article.navigation.navdelegates.MainNavigation
 import dev.jcnavigation.article.ui.theme.JetpackComposeNavigationArticleTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            JetpackComposeNavigationArticleTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
+            val navController = rememberNavController().apply {
+                addOnDestinationChangedListener { _, destination, _ ->
+                    showScreenNameIfDebug(context, destination)
                 }
+            }
+            JetpackComposeNavigationArticleTheme {
+                MainNavigation(
+                    navController = navController,
+                )
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    JetpackComposeNavigationArticleTheme {
-        Greeting("Android")
-    }
+private fun showScreenNameIfDebug(
+    context: Context,
+    destination: NavDestination,
+) {
+    if (BuildConfig.DEBUG) Toast.makeText(
+        context,
+        destination.route ?: "unknown",
+        Toast.LENGTH_SHORT,
+    ).show()
 }
