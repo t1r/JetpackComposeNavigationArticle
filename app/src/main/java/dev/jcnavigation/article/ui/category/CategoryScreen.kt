@@ -9,6 +9,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
@@ -16,6 +17,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -45,7 +47,18 @@ fun CategoryScreen(
             )
         },
         bottomBar = {
-           if (!argumentBottomTitle.isNullOrBlank()) Text(text = argumentBottomTitle)
+            if (!argumentBottomTitle.isNullOrBlank()) Surface(
+                modifier = Modifier.fillMaxWidth(),
+                elevation = 4.dp,
+            ) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    text = argumentBottomTitle,
+                    textAlign = TextAlign.Center,
+                )
+            }
         }
     ) { pv ->
         Column(
