@@ -6,6 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import dev.jcnavigation.article.navigation.NavigationConst.BOTTOM_TITLE
 import dev.jcnavigation.article.navigation.NavigationConst.CATEGORY_ID
 import dev.jcnavigation.article.navigation.NavigationConst.TITLE
 import dev.jcnavigation.article.navigation.screens.MainScreen
@@ -27,11 +28,12 @@ fun MainNavigation(
             route = MainScreen.Home.route,
         ) {
             HomeScreen(
-                goToCategory = { categoryId, string ->
+                goToCategory = { categoryId, title, bottomTitle ->
                     navController.navigate(
                         MainScreen.Category.buildRoute(
                             categoryId = categoryId,
-                            title = string,
+                            title = title,
+                            bottomTitle = bottomTitle,
                         )
                     )
                 }
@@ -42,14 +44,20 @@ fun MainNavigation(
             arguments = listOf(
                 navArgument(CATEGORY_ID) { type = NavType.LongType },
                 navArgument(TITLE) { type = NavType.StringType },
+                navArgument(BOTTOM_TITLE) {
+                    type = NavType.StringType
+                    nullable = true
+                },
             ),
         ) { entry ->
             val argumentCategoryId = entry.arguments?.getLong(CATEGORY_ID)
             val argumentTitle = entry.arguments?.getString(TITLE)
+            val argumentBottomTitle = entry.arguments?.getString(BOTTOM_TITLE)
 
             if (argumentCategoryId != null && !argumentTitle.isNullOrBlank()) CategoryScreen(
                 argumentCategoryId = argumentCategoryId,
                 argumentTitle = argumentTitle,
+                argumentBottomTitle = argumentBottomTitle,
                 onBackAction = onBackAction,
             )
             else FallbackScreen(

@@ -24,12 +24,17 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun HomeScreen(
-    goToCategory: (Long, String) -> Unit,
+    goToCategory: (Long, String, String?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val list by remember {
         derivedStateOf {
-            listOf("First/Screen", "Second%Screen", "Third^Screen", "4 ! @ # $ % ^ & * ()_ +")
+            listOf(
+                "First/Screen" to "bottom title 1",
+                "Second%Screen" to null,
+                "Third^Screen" to "bottom title 1",
+                "4 ! @ # $ % ^ & * ()_ +" to null,
+            )
         }
     }
     Scaffold(modifier = modifier) { pv ->
@@ -44,7 +49,7 @@ fun HomeScreen(
                     itemsIndexed(list) { index, item ->
                         Card(
                             modifier = Modifier
-                                .clickable { goToCategory(index.toLong(), item) }
+                                .clickable { goToCategory(index.toLong(), item.first, item.second) }
                                 .padding(16.dp),
                         ) {
                             Column {
@@ -59,7 +64,7 @@ fun HomeScreen(
                                     modifier = Modifier
                                         .padding(bottom = 12.dp)
                                         .align(Alignment.CenterHorizontally),
-                                    text = item,
+                                    text = item.first,
                                 )
                             }
                         }

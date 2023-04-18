@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 fun CategoryScreen(
     argumentCategoryId: Long,
     argumentTitle: String,
+    argumentBottomTitle: String?,
     onBackAction: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -43,6 +44,9 @@ fun CategoryScreen(
                 },
             )
         },
+        bottomBar = {
+           if (!argumentBottomTitle.isNullOrBlank()) Text(text = argumentBottomTitle)
+        }
     ) { pv ->
         Column(
             modifier = Modifier
