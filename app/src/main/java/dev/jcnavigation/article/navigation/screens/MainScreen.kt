@@ -23,5 +23,21 @@ object MainScreen {
             BOTTOM_TITLE to bottomTitle
         )
     }
+
+    object AuthGraph : Destination.WithoutArguments {
+        override val routeBody: String = "authFlow"
+
+        object Username : Destination.WithoutArguments {
+            override val routeBody: String = "username"
+        }
+
+        object Password : Destination.WithoutArguments {
+            override val routeBody: String = "password"
+        }
+
+        object Email : Destination.WithoutArguments {
+            override val routeBody: String = "email"
+        }
+    }
 }
 

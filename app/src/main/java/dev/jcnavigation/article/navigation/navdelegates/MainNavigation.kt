@@ -37,6 +37,9 @@ fun MainNavigation(
                             bottomTitle = Uri.encode(bottomTitle),
                         )
                     )
+                },
+                goToAuth = {
+                    navController.navigate(MainScreen.AuthGraph.buildRoute())
                 }
             )
         }
@@ -65,5 +68,10 @@ fun MainNavigation(
                 onBackAction = onBackAction,
             )
         }
+
+        authGraph(
+            navController = navController,
+            onBackAction = onBackAction,
+        )
     }
 }
