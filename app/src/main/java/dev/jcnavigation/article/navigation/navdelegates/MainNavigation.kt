@@ -1,6 +1,5 @@
 package dev.jcnavigation.article.navigation.navdelegates
 
-import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -33,8 +32,8 @@ fun MainNavigation(
                     navController.navigate(
                         MainScreen.Category.buildRoute(
                             categoryId = categoryId,
-                            title = Uri.encode(title),
-                            bottomTitle = Uri.encode(bottomTitle),
+                            title = title,
+                            bottomTitle = bottomTitle,
                         )
                     )
                 }
