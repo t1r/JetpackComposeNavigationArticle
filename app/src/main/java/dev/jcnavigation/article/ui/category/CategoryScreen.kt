@@ -1,11 +1,15 @@
 package dev.jcnavigation.article.ui.category
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -15,8 +19,12 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
@@ -26,8 +34,19 @@ fun CategoryScreen(
     argumentTitle: String,
     argumentBottomTitle: String?,
     onBackAction: () -> Unit,
+    goToItemDetails: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val list by remember {
+        derivedStateOf {
+            buildList {
+                repeat(6) {
+                    val index = argumentCategoryId * 100L + it
+                    add("Details #$index" to index)
+                }
+            }
+        }
+    }
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -66,22 +85,37 @@ fun CategoryScreen(
                 .padding(pv)
                 .fillMaxSize(),
         ) {
-            Spacer(modifier = Modifier.weight(1F))
-            Text(
+            LazyVerticalGrid(
                 modifier = Modifier
-                    .padding(bottom = 12.dp)
-                    .align(Alignment.CenterHorizontally),
-                text = "Category Screen",
+                    .fillMaxSize()
+                    .padding(pv),
+                columns = GridCells.Fixed(2),
+                content = {
+                    items(list) { item ->
+                        Card(
+                            modifier = Modifier
+                                .clickable { goToItemDetails(item.second) }
+                                .padding(16.dp),
+                        ) {
+                            Column {
+                                Surface(
+                                    modifier = Modifier
+                                        .height(156.dp)
+                                        .fillMaxWidth(),
+                                    color = Color(0xFFE65100),
+                                    content = {},
+                                )
+                                Text(
+                                    modifier = Modifier
+                                        .padding(bottom = 12.dp)
+                                        .align(Alignment.CenterHorizontally),
+                                    text = item.first,
+                                )
+                            }
+                        }
+                    }
+                },
             )
-            Button(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                onClick = onBackAction,
-            ) {
-                Text(
-                    text = "Back",
-                )
-            }
-            Spacer(modifier = Modifier.weight(1F))
         }
     }
 }

@@ -8,11 +8,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import dev.jcnavigation.article.navigation.NavigationConst.BOTTOM_TITLE
 import dev.jcnavigation.article.navigation.NavigationConst.CATEGORY_ID
+import dev.jcnavigation.article.navigation.NavigationConst.ITEM_ID
 import dev.jcnavigation.article.navigation.NavigationConst.TITLE
 import dev.jcnavigation.article.navigation.screens.MainScreen
 import dev.jcnavigation.article.ui.category.CategoryScreen
 import dev.jcnavigation.article.ui.fallback.FallbackScreen
 import dev.jcnavigation.article.ui.home.HomeScreen
+import dev.jcnavigation.article.ui.itemdetails.ItemDetailsScreen
 
 @Composable
 fun MainNavigation(
@@ -62,6 +64,9 @@ fun MainNavigation(
                 argumentTitle = argumentTitle,
                 argumentBottomTitle = argumentBottomTitle,
                 onBackAction = onBackAction,
+                goToItemDetails = { detailsId ->
+                    navController.navigate(MainScreen.ItemDetails.buildRoute(detailsId))
+                },
             )
             else FallbackScreen(
                 onBackAction = onBackAction,
@@ -72,5 +77,25 @@ fun MainNavigation(
             navController = navController,
             onBackAction = onBackAction,
         )
+
+        composable(
+            route = MainScreen.ItemDetails.route,
+            arguments = listOf(
+                navArgument(ITEM_ID) { type = NavType.LongType },
+            ),
+        ) { entry ->
+            val argumentCategoryId = entry.arguments?.getLong(ITEM_ID)
+
+            if (argumentCategoryId != null) ItemDetailsScreen(
+                itemId = argumentCategoryId,
+                onBackAction = onBackAction,
+                onHomeClicked = {
+                    navController.popBackStack(route = MainScreen.Home.route, inclusive = false)
+                },
+            )
+            else FallbackScreen(
+                onBackAction = onBackAction,
+            )
+        }
     }
 }

@@ -4,6 +4,7 @@ import android.net.Uri
 import dev.jcnavigation.article.navigation.Destination
 import dev.jcnavigation.article.navigation.NavigationConst.BOTTOM_TITLE
 import dev.jcnavigation.article.navigation.NavigationConst.CATEGORY_ID
+import dev.jcnavigation.article.navigation.NavigationConst.ITEM_ID
 import dev.jcnavigation.article.navigation.NavigationConst.TITLE
 import dev.jcnavigation.article.navigation.NavigationHelper.buildOptionalArgumentsString
 
@@ -42,6 +43,17 @@ object MainScreen {
 
         object Email : Destination.WithoutArguments {
             override val routeBody: String = "email"
+        }
+    }
+
+    object ItemDetails : Destination.WithArguments {
+        override val routeBody: String = "category"
+        override val suffix: String = "/{$ITEM_ID}"
+
+        fun buildRoute(
+            itemId: Long,
+        ): String {
+            return "$routeBody/$itemId"
         }
     }
 }

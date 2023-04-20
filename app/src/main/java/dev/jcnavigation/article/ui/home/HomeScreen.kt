@@ -15,13 +15,13 @@ import androidx.compose.material.Card
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.darkColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -76,7 +76,7 @@ fun HomeScreen(
                                     modifier = Modifier
                                         .height(156.dp)
                                         .fillMaxWidth(),
-                                    color = darkColors().secondaryVariant,
+                                    color = Color(0xFF00ACC1),
                                     content = {},
                                 )
                                 Text(
