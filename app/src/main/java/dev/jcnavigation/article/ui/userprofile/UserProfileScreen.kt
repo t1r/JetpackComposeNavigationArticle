@@ -1,12 +1,10 @@
-package dev.jcnavigation.article.ui.itemdetails
+package dev.jcnavigation.article.ui.userprofile
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -14,7 +12,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,11 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun ItemDetailsScreen(
-    itemId: Long,
+fun UserProfileScreen(
     onBackAction: () -> Unit,
-    onHomeClicked: () -> Unit,
-    goToCartAction: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -35,7 +29,7 @@ fun ItemDetailsScreen(
             TopAppBar(
                 modifier = Modifier.fillMaxWidth(),
                 title = {
-                    Text(text = "Item Details Screen")
+                    Text(text = "User Profile Screen")
                 },
                 navigationIcon = {
                     IconButton(
@@ -45,29 +39,7 @@ fun ItemDetailsScreen(
                         onClick = onBackAction,
                     )
                 },
-                actions = {
-                    IconButton(
-                        content = {
-                            Icon(Icons.Filled.Home, "Home")
-                        },
-                        onClick = onHomeClicked,
-                    )
-                }
             )
-        },
-        bottomBar = {
-            Box(modifier = Modifier.fillMaxWidth()) {
-                Button(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .padding(vertical = 12.dp),
-                    onClick = goToCartAction,
-                ) {
-                    Text(
-                        text = "Go To Cart",
-                    )
-                }
-            }
         },
     ) { pv ->
         Column(
@@ -80,8 +52,8 @@ fun ItemDetailsScreen(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(horizontal = 24.dp),
-                text = "Item Id #$itemId",
-                fontSize = 30.sp,
+                text = "Data",
+                fontSize = 18.sp,
             )
             Spacer(modifier = Modifier.weight(1F))
         }

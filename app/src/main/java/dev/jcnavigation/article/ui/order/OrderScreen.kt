@@ -1,12 +1,10 @@
-package dev.jcnavigation.article.ui.itemdetails
+package dev.jcnavigation.article.ui.order
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -22,11 +20,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun ItemDetailsScreen(
-    itemId: Long,
+fun OrderScreen(
+    orderId: Long,
     onBackAction: () -> Unit,
     onHomeClicked: () -> Unit,
-    goToCartAction: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -35,7 +32,7 @@ fun ItemDetailsScreen(
             TopAppBar(
                 modifier = Modifier.fillMaxWidth(),
                 title = {
-                    Text(text = "Item Details Screen")
+                    Text(text = "Order Screen")
                 },
                 navigationIcon = {
                     IconButton(
@@ -55,20 +52,6 @@ fun ItemDetailsScreen(
                 }
             )
         },
-        bottomBar = {
-            Box(modifier = Modifier.fillMaxWidth()) {
-                Button(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .padding(vertical = 12.dp),
-                    onClick = goToCartAction,
-                ) {
-                    Text(
-                        text = "Go To Cart",
-                    )
-                }
-            }
-        },
     ) { pv ->
         Column(
             modifier = Modifier
@@ -80,7 +63,7 @@ fun ItemDetailsScreen(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(horizontal = 24.dp),
-                text = "Item Id #$itemId",
+                text = "Order Id #$orderId",
                 fontSize = 30.sp,
             )
             Spacer(modifier = Modifier.weight(1F))

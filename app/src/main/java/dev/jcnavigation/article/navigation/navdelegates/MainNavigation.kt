@@ -9,18 +9,25 @@ import androidx.navigation.navArgument
 import dev.jcnavigation.article.navigation.NavigationConst.BOTTOM_TITLE
 import dev.jcnavigation.article.navigation.NavigationConst.CATEGORY_ID
 import dev.jcnavigation.article.navigation.NavigationConst.ITEM_ID
+import dev.jcnavigation.article.navigation.NavigationConst.ORDER_ID
 import dev.jcnavigation.article.navigation.NavigationConst.TITLE
 import dev.jcnavigation.article.navigation.screens.MainScreen
+import dev.jcnavigation.article.ui.cart.CartScreen
 import dev.jcnavigation.article.ui.category.CategoryScreen
 import dev.jcnavigation.article.ui.fallback.FallbackScreen
 import dev.jcnavigation.article.ui.home.HomeScreen
 import dev.jcnavigation.article.ui.itemdetails.ItemDetailsScreen
+import dev.jcnavigation.article.ui.order.OrderScreen
+import dev.jcnavigation.article.ui.userprofile.UserProfileScreen
 
 @Composable
 fun MainNavigation(
     navController: NavHostController,
 ) {
     val onBackAction: () -> Unit = { navController.navigateUp() }
+    val goToHomeAction: () -> Unit = {
+        navController.popBackStack(route = MainScreen.Home.route, inclusive = false)
+    }
 
     NavHost(
         navController = navController,
@@ -89,9 +96,49 @@ fun MainNavigation(
             if (argumentCategoryId != null) ItemDetailsScreen(
                 itemId = argumentCategoryId,
                 onBackAction = onBackAction,
-                onHomeClicked = {
-                    navController.popBackStack(route = MainScreen.Home.route, inclusive = false)
+                onHomeClicked = goToHomeAction,
+                goToCartAction = {
+                    navController.navigate(MainScreen.Cart.route)
                 },
+            )
+            else FallbackScreen(
+                onBackAction = onBackAction,
+            )
+        }
+
+        composable(
+            route = MainScreen.Cart.route,
+        ) {
+            CartScreen(
+                onBackAction = onBackAction,
+                onBuyClicked = { orderId ->
+                    navController.popBackStack(MainScreen.Home.route, false)
+                    navController.navigate(MainScreen.UserProfile.route)
+                    navController.navigate(MainScreen.Order.buildRoute(orderId))
+                },
+            )
+        }
+
+        composable(
+            route = MainScreen.UserProfile.route,
+        ) {
+            UserProfileScreen(
+                onBackAction = onBackAction,
+            )
+        }
+
+        composable(
+            route = MainScreen.Order.route,
+            arguments = listOf(
+                navArgument(ORDER_ID) { type = NavType.LongType },
+            ),
+        ) { entry ->
+            val argumentOrderId = entry.arguments?.getLong(ORDER_ID)
+
+            if (argumentOrderId != null) OrderScreen(
+                orderId = argumentOrderId,
+                onBackAction = onBackAction,
+                onHomeClicked = goToHomeAction,
             )
             else FallbackScreen(
                 onBackAction = onBackAction,

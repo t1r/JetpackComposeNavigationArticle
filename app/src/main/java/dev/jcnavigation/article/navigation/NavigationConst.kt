@@ -5,4 +5,5 @@ object NavigationConst {
     const val TITLE = "title"
     const val BOTTOM_TITLE = "bottomTitle"
     const val ITEM_ID = "itemId"
+    const val ORDER_ID = "orderId"
 }

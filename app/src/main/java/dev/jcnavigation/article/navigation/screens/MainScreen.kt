@@ -5,6 +5,7 @@ import dev.jcnavigation.article.navigation.Destination
 import dev.jcnavigation.article.navigation.NavigationConst.BOTTOM_TITLE
 import dev.jcnavigation.article.navigation.NavigationConst.CATEGORY_ID
 import dev.jcnavigation.article.navigation.NavigationConst.ITEM_ID
+import dev.jcnavigation.article.navigation.NavigationConst.ORDER_ID
 import dev.jcnavigation.article.navigation.NavigationConst.TITLE
 import dev.jcnavigation.article.navigation.NavigationHelper.buildOptionalArgumentsString
 
@@ -56,5 +57,25 @@ object MainScreen {
             return "$routeBody/$itemId"
         }
     }
+
+    object Cart : Destination.WithoutArguments {
+        override val routeBody: String = "cart"
+    }
+
+    object UserProfile : Destination.WithoutArguments {
+        override val routeBody: String = "userProfile"
+    }
+
+    object Order : Destination.WithArguments {
+        override val routeBody: String = "order"
+        override val suffix: String = "/{$ORDER_ID}"
+
+        fun buildRoute(
+            orderId: Long,
+        ): String {
+            return "$routeBody/$orderId"
+        }
+    }
+
 }
 
