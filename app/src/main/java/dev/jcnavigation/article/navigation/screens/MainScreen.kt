@@ -1,5 +1,6 @@
 package dev.jcnavigation.article.navigation.screens
 
+import android.net.Uri
 import dev.jcnavigation.article.navigation.Destination
 import dev.jcnavigation.article.navigation.NavigationConst.BOTTOM_TITLE
 import dev.jcnavigation.article.navigation.NavigationConst.CATEGORY_ID
@@ -19,9 +20,13 @@ object MainScreen {
             categoryId: Long,
             title: String,
             bottomTitle: String? = null,
-        ): String = "$routeBody/$categoryId/$title" + buildOptionalArgumentsString(
-            BOTTOM_TITLE to bottomTitle
-        )
+        ): String {
+            val encodedTitle = Uri.encode(title)
+            val encodedBottomTitle = bottomTitle?.let { Uri.encode(it) }
+            return "$routeBody/$categoryId/$encodedTitle" + buildOptionalArgumentsString(
+                BOTTOM_TITLE to encodedBottomTitle
+            )
+        }
     }
 
     object AuthGraph : Destination.WithoutArguments {
