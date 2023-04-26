@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 fun HomeScreen(
     goToCategory: (Long, String, String?) -> Unit,
     goToAuth: () -> Unit,
+    goToExpress: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val list by remember {
@@ -65,30 +66,51 @@ fun HomeScreen(
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 content = {
+                    item {
+                        ItemWidget(
+                            modifier = Modifier
+                                .clickable { goToExpress() }
+                                .padding(16.dp),
+                            title = "Express",
+                            color = Color(0xFFD50000),
+                        )
+                    }
                     itemsIndexed(list) { index, item ->
-                        Card(
+                        ItemWidget(
                             modifier = Modifier
                                 .clickable { goToCategory(index.toLong(), item.first, item.second) }
                                 .padding(16.dp),
-                        ) {
-                            Column {
-                                Surface(
-                                    modifier = Modifier
-                                        .height(156.dp)
-                                        .fillMaxWidth(),
-                                    color = Color(0xFF00ACC1),
-                                    content = {},
-                                )
-                                Text(
-                                    modifier = Modifier
-                                        .padding(bottom = 12.dp)
-                                        .align(Alignment.CenterHorizontally),
-                                    text = item.first,
-                                )
-                            }
-                        }
+                            title = item.first,
+                        )
                     }
                 },
+            )
+        }
+    }
+}
+
+@Composable
+private fun ItemWidget(
+    title: String,
+    modifier: Modifier = Modifier,
+    color: Color = Color(0xFF00ACC1),
+) {
+    Card(
+        modifier = modifier,
+    ) {
+        Column {
+            Surface(
+                modifier = Modifier
+                    .height(156.dp)
+                    .fillMaxWidth(),
+                color = color,
+                content = {},
+            )
+            Text(
+                modifier = Modifier
+                    .padding(bottom = 12.dp)
+                    .align(Alignment.CenterHorizontally),
+                text = title,
             )
         }
     }

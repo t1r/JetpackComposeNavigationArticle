@@ -11,6 +11,7 @@ import dev.jcnavigation.article.navigation.NavigationConst.CATEGORY_ID
 import dev.jcnavigation.article.navigation.NavigationConst.ITEM_ID
 import dev.jcnavigation.article.navigation.NavigationConst.ORDER_ID
 import dev.jcnavigation.article.navigation.NavigationConst.TITLE
+import dev.jcnavigation.article.navigation.screens.ExpressScreen
 import dev.jcnavigation.article.navigation.screens.MainScreen
 import dev.jcnavigation.article.ui.cart.CartScreen
 import dev.jcnavigation.article.ui.category.CategoryScreen
@@ -48,7 +49,10 @@ fun MainNavigation(
                 },
                 goToAuth = {
                     navController.navigate(MainScreen.AuthGraph.buildRoute())
-                }
+                },
+                goToExpress = {
+                    navController.navigate(ExpressScreen.ExpressGraph.buildRoute())
+                },
             )
         }
         composable(
@@ -91,14 +95,14 @@ fun MainNavigation(
                 navArgument(ITEM_ID) { type = NavType.LongType },
             ),
         ) { entry ->
-            val argumentCategoryId = entry.arguments?.getLong(ITEM_ID)
+            val argumentItemId = entry.arguments?.getLong(ITEM_ID)
 
-            if (argumentCategoryId != null) ItemDetailsScreen(
-                itemId = argumentCategoryId,
+            if (argumentItemId != null) ItemDetailsScreen(
+                itemId = argumentItemId,
                 onBackAction = onBackAction,
                 onHomeClicked = goToHomeAction,
                 goToCartAction = {
-                    navController.navigate(MainScreen.Cart.route)
+                    navController.navigate(MainScreen.Cart.buildRoute())
                 },
             )
             else FallbackScreen(
@@ -113,7 +117,7 @@ fun MainNavigation(
                 onBackAction = onBackAction,
                 onBuyClicked = { orderId ->
                     navController.popBackStack(MainScreen.Home.route, false)
-                    navController.navigate(MainScreen.UserProfile.route)
+                    navController.navigate(MainScreen.UserProfile.buildRoute())
                     navController.navigate(MainScreen.Order.buildRoute(orderId))
                 },
             )
@@ -144,5 +148,10 @@ fun MainNavigation(
                 onBackAction = onBackAction,
             )
         }
+
+        expressGraph(
+            navController = navController,
+            onBackAction = onBackAction,
+        )
     }
 }
