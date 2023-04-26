@@ -16,11 +16,13 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun CartScreen(
     onBackAction: () -> Unit,
     onBuyClicked: (Long) -> Unit,
+    goToExpressCart: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -54,6 +56,16 @@ fun CartScreen(
             ) {
                 Text(
                     text = "Checkout",
+                )
+            }
+            Button(
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .align(Alignment.CenterHorizontally),
+                onClick = { goToExpressCart() },
+            ) {
+                Text(
+                    text = "Express Cart",
                 )
             }
             Spacer(modifier = Modifier.weight(1F))

@@ -12,9 +12,14 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material.Button
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -29,6 +34,7 @@ fun HomeScreen(
     goToCategory: (Long, String, String?) -> Unit,
     goToAuth: () -> Unit,
     goToExpress: () -> Unit,
+    goToCart: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val list by remember {
@@ -43,6 +49,22 @@ fun HomeScreen(
     }
     Scaffold(
         modifier = modifier,
+        topBar = {
+            TopAppBar(
+                modifier = Modifier.fillMaxWidth(),
+                title = {
+                    Text(text = "Home Screen")
+                },
+                actions = {
+                    IconButton(
+                        content = {
+                            Icon(Icons.Filled.ShoppingCart, "Cart")
+                        },
+                        onClick = goToCart,
+                    )
+                },
+            )
+        },
         bottomBar = {
             Box(modifier = Modifier.fillMaxWidth()) {
                 Button(

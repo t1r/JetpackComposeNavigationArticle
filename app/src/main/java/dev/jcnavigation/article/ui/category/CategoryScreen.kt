@@ -18,6 +18,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -35,6 +37,8 @@ fun CategoryScreen(
     argumentBottomTitle: String?,
     onBackAction: () -> Unit,
     goToItemDetails: (Long) -> Unit,
+    onHomeClicked: () -> Unit,
+    goToCart: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val list by remember {
@@ -61,6 +65,20 @@ fun CategoryScreen(
                             Icon(Icons.Filled.ArrowBack, "Back")
                         },
                         onClick = onBackAction,
+                    )
+                },
+                actions = {
+                    IconButton(
+                        content = {
+                            Icon(Icons.Filled.Home, "Home")
+                        },
+                        onClick = onHomeClicked,
+                    )
+                    IconButton(
+                        content = {
+                            Icon(Icons.Filled.ShoppingCart, "Cart")
+                        },
+                        onClick = goToCart,
                     )
                 },
             )

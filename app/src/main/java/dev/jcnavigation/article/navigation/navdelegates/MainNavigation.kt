@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import dev.jcnavigation.article.navigation.NavigationConst.BOTTOM_TITLE
 import dev.jcnavigation.article.navigation.NavigationConst.CATEGORY_ID
+import dev.jcnavigation.article.navigation.NavigationConst.ExpressScreenType
 import dev.jcnavigation.article.navigation.NavigationConst.ITEM_ID
 import dev.jcnavigation.article.navigation.NavigationConst.ORDER_ID
 import dev.jcnavigation.article.navigation.NavigationConst.TITLE
@@ -28,6 +29,9 @@ fun MainNavigation(
     val onBackAction: () -> Unit = { navController.navigateUp() }
     val goToHomeAction: () -> Unit = {
         navController.popBackStack(route = MainScreen.Home.route, inclusive = false)
+    }
+    val goToCart: () -> Unit = {
+        navController.navigate(MainScreen.Cart.buildRoute())
     }
 
     NavHost(
@@ -51,8 +55,9 @@ fun MainNavigation(
                     navController.navigate(MainScreen.AuthGraph.buildRoute())
                 },
                 goToExpress = {
-                    navController.navigate(ExpressScreen.ExpressGraph.buildRoute())
+                    navController.navigate(ExpressScreen.ExpressGraph.buildRoute(ExpressScreenType.Home))
                 },
+                goToCart = goToCart,
             )
         }
         composable(
@@ -78,6 +83,8 @@ fun MainNavigation(
                 goToItemDetails = { detailsId ->
                     navController.navigate(MainScreen.ItemDetails.buildRoute(detailsId))
                 },
+                onHomeClicked = goToHomeAction,
+                goToCart = goToCart,
             )
             else FallbackScreen(
                 onBackAction = onBackAction,
@@ -101,9 +108,7 @@ fun MainNavigation(
                 itemId = argumentItemId,
                 onBackAction = onBackAction,
                 onHomeClicked = goToHomeAction,
-                goToCartAction = {
-                    navController.navigate(MainScreen.Cart.buildRoute())
-                },
+                goToCart = goToCart,
             )
             else FallbackScreen(
                 onBackAction = onBackAction,
@@ -119,6 +124,9 @@ fun MainNavigation(
                     navController.popBackStack(MainScreen.Home.route, false)
                     navController.navigate(MainScreen.UserProfile.buildRoute())
                     navController.navigate(MainScreen.Order.buildRoute(orderId))
+                },
+                goToExpressCart = {
+                    navController.navigate(ExpressScreen.ExpressGraph.buildRoute(ExpressScreenType.Cart))
                 },
             )
         }

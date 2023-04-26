@@ -15,6 +15,7 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,7 +27,7 @@ fun ItemDetailsScreen(
     itemId: Long,
     onBackAction: () -> Unit,
     onHomeClicked: () -> Unit,
-    goToCartAction: () -> Unit,
+    goToCart: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -52,7 +53,13 @@ fun ItemDetailsScreen(
                         },
                         onClick = onHomeClicked,
                     )
-                }
+                    IconButton(
+                        content = {
+                            Icon(Icons.Filled.ShoppingCart, "Cart")
+                        },
+                        onClick = goToCart,
+                    )
+                },
             )
         },
         bottomBar = {
@@ -61,7 +68,7 @@ fun ItemDetailsScreen(
                     modifier = Modifier
                         .align(Alignment.Center)
                         .padding(vertical = 12.dp),
-                    onClick = goToCartAction,
+                    onClick = goToCart,
                 ) {
                     Text(
                         text = "Go To Cart",
