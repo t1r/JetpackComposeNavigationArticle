@@ -2,7 +2,16 @@ package dev.jcnavigation.article.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
-val Purple700 = Color(0xFF3700B3)
-val Teal200 = Color(0xFF03DAC5)
+fun expressPrimaryColor(
+    isSystemInDarkTheme: Boolean,
+): Color {
+    return if (isSystemInDarkTheme) Color(0xffc2185b)
+    else Color(0xffc2185b)
+}
+
+fun primaryColor(
+    isSystemInDarkTheme: Boolean,
+): Color {
+    return if (isSystemInDarkTheme) Color(0xff388e3c)
+    else Color(0xff43a047)
+}

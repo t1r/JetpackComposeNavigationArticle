@@ -1,5 +1,7 @@
 package dev.jcnavigation.article.navigation
 
+import dev.jcnavigation.article.navigation.screens.ExpressScreen
+
 object NavigationConst {
     const val CATEGORY_ID = "categoryId"
     const val TITLE = "title"
@@ -12,4 +14,11 @@ object NavigationConst {
         Home(1),
         Cart(2),
     }
+
+    val expressRoutes = setOf(
+        ExpressScreen.ExpressGraph.Resolver.route,
+        ExpressScreen.ExpressGraph.Home.route,
+        ExpressScreen.ExpressGraph.Cart.route,
+        ExpressScreen.ExpressGraph.Item.route,
+    )
 }

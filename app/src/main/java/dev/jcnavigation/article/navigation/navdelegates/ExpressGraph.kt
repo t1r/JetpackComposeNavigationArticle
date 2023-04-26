@@ -17,6 +17,7 @@ import dev.jcnavigation.article.ui.express.item.ExpressItemScreen
 import dev.jcnavigation.article.ui.express.resolver.ExpressResolverRepositoryImpl
 import dev.jcnavigation.article.ui.express.resolver.ExpressResolverScreen
 import dev.jcnavigation.article.ui.express.resolver.ExpressResolverViewModel
+import dev.jcnavigation.article.ui.theme.JetpackComposeNavigationArticleExpressTheme
 
 fun NavGraphBuilder.expressGraph(
     navController: NavController,
@@ -47,39 +48,45 @@ fun NavGraphBuilder.expressGraph(
             val screenType = entry.arguments?.getInt(EXPRESS_FLOW_SCREEN_TYPE)
                 ?: ExpressScreenType.Home.id
 
-            ExpressResolverScreen(
-                vm = viewModel(
-                    factory = ExpressResolverViewModel.factory(
-                        ExpressResolverRepositoryImpl
+            JetpackComposeNavigationArticleExpressTheme {
+                ExpressResolverScreen(
+                    vm = viewModel(
+                        factory = ExpressResolverViewModel.factory(
+                            ExpressResolverRepositoryImpl
+                        ),
                     ),
-                ),
-                onBackAction = onBackAction,
-                onNavigateAction = {
-                    navController.navigate(
-                        when (screenType) {
-                            ExpressScreenType.Cart.id -> ExpressScreen.ExpressGraph.Cart.buildRoute()
-                            else -> ExpressScreen.ExpressGraph.Home.buildRoute()
+                    onBackAction = onBackAction,
+                    onNavigateAction = {
+                        navController.navigate(
+                            when (screenType) {
+                                ExpressScreenType.Cart.id -> ExpressScreen.ExpressGraph.Cart.buildRoute()
+                                else -> ExpressScreen.ExpressGraph.Home.buildRoute()
+                            }
+                        ) {
+                            popUpTo(ExpressScreen.ExpressGraph.Resolver.route) {
+                                inclusive = true
+                            }
                         }
-                    ) {
-                        popUpTo(ExpressScreen.ExpressGraph.Resolver.route) {
-                            inclusive = true
-                        }
-                    }
-                },
-            )
+                    },
+                )
+            }
         }
         composable(ExpressScreen.ExpressGraph.Home.route) {
-            ExpressHomeScreen(
-                onBackAction = onBackAction,
-                goToCart = goToCart,
-                goToItem = { goToItem(0L) },
-            )
+            JetpackComposeNavigationArticleExpressTheme {
+                ExpressHomeScreen(
+                    onBackAction = onBackAction,
+                    goToCart = goToCart,
+                    goToItem = { goToItem(0L) },
+                )
+            }
         }
         composable(ExpressScreen.ExpressGraph.Cart.route) {
-            ExpressCartScreen(
-                onBackAction = onBackAction,
-                goToHome = goToHome,
-            )
+            JetpackComposeNavigationArticleExpressTheme {
+                ExpressCartScreen(
+                    onBackAction = onBackAction,
+                    goToHome = goToHome,
+                )
+            }
         }
         composable(
             ExpressScreen.ExpressGraph.Item.route,
@@ -88,13 +95,15 @@ fun NavGraphBuilder.expressGraph(
             ),
         ) { entry ->
             val argumentItemId = entry.arguments?.getLong(NavigationConst.ITEM_ID) ?: 0L
-            ExpressItemScreen(
-                argumentItemId = argumentItemId,
-                onBackAction = onBackAction,
-                goToItem = goToItem,
-                goToCart = goToCart,
-                goToHome = goToHome,
-            )
+            JetpackComposeNavigationArticleExpressTheme {
+                ExpressItemScreen(
+                    argumentItemId = argumentItemId,
+                    onBackAction = onBackAction,
+                    goToItem = goToItem,
+                    goToCart = goToCart,
+                    goToHome = goToHome,
+                )
+            }
         }
     }
 }
