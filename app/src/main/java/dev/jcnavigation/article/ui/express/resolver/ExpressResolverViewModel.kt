@@ -19,11 +19,11 @@ class ExpressResolverViewModel(
 
     init {
         repository
-            .isResolved
+            .addressIdFlow
             .onEach { value ->
                 _state.update { state ->
                     state.copy(
-                        isResolved = value,
+                        addressId = value,
                     )
                 }
             }

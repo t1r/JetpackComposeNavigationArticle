@@ -47,7 +47,7 @@ fun ExpressResolverScreen(
             )
         },
         content = { pv ->
-            if (!uiState.isResolved) Box(
+            if (uiState.addressId == null) Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(pv),
@@ -66,8 +66,9 @@ fun ExpressResolverScreen(
         }
     )
 
-    if (uiState.isResolved) {
-        val onResolveAction by rememberUpdatedState { onNavigateAction() }
-        LaunchedEffect(uiState) { onResolveAction() }
-    }
+    uiState.addressId
+        ?.let {
+            val onResolveAction by rememberUpdatedState { onNavigateAction() }
+            LaunchedEffect(uiState) { onResolveAction() }
+        }
 }
