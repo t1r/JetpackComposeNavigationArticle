@@ -80,7 +80,7 @@ fun ExpressItemScreen(
                         },
                     ) {
                         Text(
-                            text = "Go To Item #$argumentItemId",
+                            text = "Go To Item #${argumentItemId + 1L}",
                         )
                     }
                 }
