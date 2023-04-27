@@ -36,6 +36,12 @@ fun NavGraphBuilder.expressGraph(
     val goToItem = { id: Long ->
         navController.navigate(ExpressScreen.ExpressGraph.Item.buildRoute(id))
     }
+    val finishExpressFlow: () -> Unit = {
+        navController.popBackStack(
+            route = ExpressScreen.ExpressGraph.route,
+            inclusive = true,
+        )
+    }
 
     navigation(
         route = ExpressScreen.ExpressGraph.route,
@@ -102,6 +108,7 @@ fun NavGraphBuilder.expressGraph(
                     goToItem = goToItem,
                     goToCart = goToCart,
                     goToHome = goToHome,
+                    finishExpressFlow = finishExpressFlow,
                 )
             }
         }
