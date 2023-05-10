@@ -10,6 +10,8 @@ object NavigationConst {
     const val ORDER_ID = "orderId"
     const val EXPRESS_FLOW_SCREEN_TYPE = "expressFlowScreenType"
 
+    const val RESULT = "result"
+
     enum class ExpressScreenType(val id: Int) {
         Home(1),
         Cart(2),

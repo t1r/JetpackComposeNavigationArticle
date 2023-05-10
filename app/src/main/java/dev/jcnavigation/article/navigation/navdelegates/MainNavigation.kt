@@ -1,6 +1,7 @@
 package dev.jcnavigation.article.navigation.navdelegates
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -11,15 +12,20 @@ import dev.jcnavigation.article.navigation.NavigationConst.CATEGORY_ID
 import dev.jcnavigation.article.navigation.NavigationConst.ExpressScreenType
 import dev.jcnavigation.article.navigation.NavigationConst.ITEM_ID
 import dev.jcnavigation.article.navigation.NavigationConst.ORDER_ID
+import dev.jcnavigation.article.navigation.NavigationConst.RESULT
 import dev.jcnavigation.article.navigation.NavigationConst.TITLE
+import dev.jcnavigation.article.navigation.getDataFromResultAndClear
 import dev.jcnavigation.article.navigation.screens.ExpressScreen
 import dev.jcnavigation.article.navigation.screens.MainScreen
+import dev.jcnavigation.article.navigation.setDataForResult
 import dev.jcnavigation.article.ui.cart.CartScreen
 import dev.jcnavigation.article.ui.category.CategoryScreen
 import dev.jcnavigation.article.ui.fallback.FallbackScreen
 import dev.jcnavigation.article.ui.home.HomeScreen
 import dev.jcnavigation.article.ui.itemdetails.ItemDetailsScreen
+import dev.jcnavigation.article.ui.itemdetails.ItemDetailsViewModel
 import dev.jcnavigation.article.ui.order.OrderScreen
+import dev.jcnavigation.article.ui.takeresult.TakeResultScreen
 import dev.jcnavigation.article.ui.userprofile.UserProfileScreen
 
 @Composable
@@ -103,12 +109,21 @@ fun MainNavigation(
             ),
         ) { entry ->
             val argumentItemId = entry.arguments?.getLong(ITEM_ID)
+            val vm: ItemDetailsViewModel? = argumentItemId?.let {
+                viewModel(factory = ItemDetailsViewModel.factory(it))
+            }
 
-            if (argumentItemId != null) ItemDetailsScreen(
-                itemId = argumentItemId,
+            navController.getDataFromResultAndClear<String>(RESULT)
+                ?.let { vm?.setResult(it) }
+
+            if (vm != null) ItemDetailsScreen(
+                vm = vm,
                 onBackAction = onBackAction,
                 onHomeClicked = goToHomeAction,
                 goToCart = goToCart,
+                goForResult = {
+                    navController.navigate(MainScreen.TakeResult.buildRoute())
+                },
             )
             else FallbackScreen(
                 onBackAction = onBackAction,
@@ -161,5 +176,17 @@ fun MainNavigation(
             navController = navController,
             onBackAction = onBackAction,
         )
+
+        composable(
+            route = MainScreen.TakeResult.route,
+        ) {
+            TakeResultScreen(
+                onBackAction = onBackAction,
+                backWithResult = { result ->
+                    navController.setDataForResult(RESULT, result)
+                    onBackAction()
+                },
+            )
+        }
     }
 }

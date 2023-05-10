@@ -77,5 +77,8 @@ object MainScreen {
         }
     }
 
+    object TakeResult : Destination.WithoutArguments {
+        override val routeBody: String = "takeResult"
+    }
 }
 
