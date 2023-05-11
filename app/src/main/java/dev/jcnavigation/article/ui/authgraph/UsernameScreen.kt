@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun UsernameScreen(
+    vm: AuthViewModel,
     onBackAction: () -> Unit,
     goToPasswordScreen: () -> Unit,
     modifier: Modifier = Modifier,

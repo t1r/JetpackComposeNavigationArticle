@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun EmailScreen(
+    vm: AuthViewModel,
     onBackAction: () -> Unit,
     finishFlow: () -> Unit,
     modifier: Modifier = Modifier,
