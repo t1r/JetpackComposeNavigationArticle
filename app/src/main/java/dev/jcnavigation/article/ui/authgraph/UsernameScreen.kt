@@ -42,9 +42,9 @@ fun UsernameScreen(
     modifier: Modifier = Modifier,
 ) {
     val uiState by vm.state.collectAsState()
-    var validationInProgress: Boolean by rememberSaveable { mutableStateOf(false) }
+    var isValidationInProgress: Boolean by rememberSaveable { mutableStateOf(false) }
     val onValidateSuccessAction by rememberUpdatedState {
-        validationInProgress = false
+        isValidationInProgress = false
         goToPasswordScreen()
     }
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -92,7 +92,7 @@ fun UsernameScreen(
                     .padding(top = 16.dp),
                 onClick = {
                     vm.validateUsername()
-                    validationInProgress = true
+                    isValidationInProgress = true
                 },
             ) {
                 if (uiState.isUsernameValidationInProgress) CircularProgressIndicator(
@@ -106,8 +106,8 @@ fun UsernameScreen(
 
     LaunchedEffect(
         uiState.isUsernameValid,
-        validationInProgress,
+        isValidationInProgress,
     ) {
-        if (uiState.isUsernameValid && validationInProgress) onValidateSuccessAction()
+        if (uiState.isUsernameValid && isValidationInProgress) onValidateSuccessAction()
     }
 }
