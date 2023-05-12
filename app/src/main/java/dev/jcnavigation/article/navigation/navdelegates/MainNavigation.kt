@@ -31,6 +31,7 @@ import dev.jcnavigation.article.ui.userprofile.UserProfileScreen
 @Composable
 fun MainNavigation(
     navController: NavHostController,
+    isExpanded: Boolean,
 ) {
     val onBackAction: () -> Unit = { navController.navigateUp() }
     val goToHomeAction: () -> Unit = {
@@ -100,6 +101,7 @@ fun MainNavigation(
         authGraph(
             navController = navController,
             onBackAction = onBackAction,
+            isExpanded = isExpanded,
         )
 
         composable(

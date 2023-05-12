@@ -9,6 +9,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import dev.jcnavigation.article.navigation.screens.MainScreen
+import dev.jcnavigation.article.ui.authgraph.AuthScreen
 import dev.jcnavigation.article.ui.authgraph.AuthViewModel
 import dev.jcnavigation.article.ui.authgraph.EmailScreen
 import dev.jcnavigation.article.ui.authgraph.PasswordScreen
@@ -17,13 +18,22 @@ import dev.jcnavigation.article.ui.authgraph.UsernameScreen
 fun NavGraphBuilder.authGraph(
     navController: NavController,
     onBackAction: () -> Unit,
+    isExpanded: Boolean,
 ) {
+    val finishFlow: () -> Unit = {
+        navController.popBackStack(route = MainScreen.AuthGraph.route, inclusive = true)
+    }
     navigation(
         route = MainScreen.AuthGraph.route,
         startDestination = MainScreen.AuthGraph.Username.route,
     ) {
         composable(MainScreen.AuthGraph.Username.route) {
-            UsernameScreen(
+            if (isExpanded) AuthScreen(
+                vm = getAuthViewModel(navController = navController, backStackEntry = it),
+                onBackAction = onBackAction,
+                finishFlow = finishFlow,
+            )
+            else UsernameScreen(
                 vm = getAuthViewModel(navController = navController, backStackEntry = it),
                 onBackAction = onBackAction,
                 goToPasswordScreen = {
@@ -44,9 +54,7 @@ fun NavGraphBuilder.authGraph(
             EmailScreen(
                 vm = getAuthViewModel(navController = navController, backStackEntry = it),
                 onBackAction = onBackAction,
-                finishFlow = {
-                    navController.popBackStack(route = MainScreen.AuthGraph.route, inclusive = true)
-                }
+                finishFlow = finishFlow,
             )
         }
     }

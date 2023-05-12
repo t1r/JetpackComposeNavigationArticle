@@ -7,6 +7,9 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.ui.graphics.toArgb
 import androidx.navigation.NavDestination
 import androidx.navigation.compose.rememberNavController
@@ -17,10 +20,13 @@ import dev.jcnavigation.article.ui.theme.expressPrimaryColor
 import dev.jcnavigation.article.ui.theme.primaryColor
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val isSystemInDarkTheme = isSystemInDarkTheme()
+            val isExpanded =
+                calculateWindowSizeClass(this).widthSizeClass == WindowWidthSizeClass.Expanded
             val navController = rememberNavController().apply {
                 addOnDestinationChangedListener { _, destination, _ ->
                     showScreenNameIfDebug(context, destination)
@@ -30,6 +36,7 @@ class MainActivity : ComponentActivity() {
             JetpackComposeNavigationArticleTheme {
                 MainNavigation(
                     navController = navController,
+                    isExpanded = isExpanded,
                 )
             }
         }
