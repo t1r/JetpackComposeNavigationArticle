@@ -48,7 +48,7 @@ object MainScreen {
     }
 
     object ItemDetails : Destination.WithArguments {
-        override val routeBody: String = "category"
+        override val routeBody: String = "itemDetails"
         override val suffix: String = "/{$ITEM_ID}"
 
         fun buildRoute(

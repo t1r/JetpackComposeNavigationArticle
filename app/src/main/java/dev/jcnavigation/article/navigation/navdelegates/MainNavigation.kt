@@ -1,12 +1,17 @@
 package dev.jcnavigation.article.navigation.navdelegates
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
+import dev.jcnavigation.article.navigation.DeeplinkConst
 import dev.jcnavigation.article.navigation.NavigationConst.BOTTOM_TITLE
 import dev.jcnavigation.article.navigation.NavigationConst.CATEGORY_ID
 import dev.jcnavigation.article.navigation.NavigationConst.ExpressScreenType
@@ -77,6 +82,9 @@ fun MainNavigation(
                     nullable = true
                 },
             ),
+            deepLinks = listOf(
+                navDeepLink { uriPattern = DeeplinkConst.CATEGORY },
+            ),
         ) { entry ->
             val argumentCategoryId = entry.arguments?.getLong(CATEGORY_ID)
             val argumentTitle = entry.arguments?.getString(TITLE)
@@ -134,6 +142,9 @@ fun MainNavigation(
 
         composable(
             route = MainScreen.Cart.route,
+            deepLinks = listOf(
+                navDeepLink { uriPattern = DeeplinkConst.CART },
+            ),
         ) {
             CartScreen(
                 onBackAction = onBackAction,
@@ -189,6 +200,47 @@ fun MainNavigation(
                     onBackAction()
                 },
             )
+        }
+
+        composable(
+            route = "itemDetailsDeepLink",
+            arguments = listOf(
+                navArgument(ITEM_ID) { type = NavType.LongType },
+                navArgument(CATEGORY_ID) { type = NavType.LongType },
+                navArgument(TITLE) { type = NavType.StringType },
+                navArgument(BOTTOM_TITLE) {
+                    type = NavType.StringType
+                    nullable = true
+                },
+            ),
+            deepLinks = listOf(
+                navDeepLink { uriPattern = DeeplinkConst.ITEM },
+            ),
+        ) { entry ->
+            val argumentItemId = entry.arguments?.getLong(ITEM_ID)
+            val argumentCategoryId = entry.arguments?.getLong(CATEGORY_ID)
+            val argumentTitle = entry.arguments?.getString(TITLE)
+            val argumentBottomTitle = entry.arguments?.getString(BOTTOM_TITLE)
+
+            if (argumentItemId == null || argumentCategoryId == null || argumentTitle.isNullOrBlank()) {
+                FallbackScreen(onBackAction = onBackAction)
+                return@composable
+            }
+
+            val navigate by rememberUpdatedState {
+                navController.popBackStack("itemDetailsDeepLink", true)
+                navController.navigate(
+                    MainScreen.Category.buildRoute(
+                        categoryId = argumentCategoryId,
+                        title = argumentTitle,
+                        bottomTitle = argumentBottomTitle,
+                    )
+                )
+                navController.navigate(MainScreen.ItemDetails.buildRoute(argumentItemId))
+            }
+            LaunchedEffect(Unit) {
+                navigate()
+            }
         }
     }
 }
