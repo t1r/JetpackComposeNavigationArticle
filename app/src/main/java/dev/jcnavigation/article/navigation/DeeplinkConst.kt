@@ -9,4 +9,5 @@ object DeeplinkConst {
     const val CATEGORY = "$SCHEME_AND_HOST/catalog/{$CATEGORY_ID}/{$TITLE}"
     const val ITEM = "$SCHEME_AND_HOST/catalog/{$CATEGORY_ID}/{$TITLE}/item/{$ITEM_ID}"
     const val CART = "$SCHEME_AND_HOST/cart"
+    const val EXPRESS_CART = "$SCHEME_AND_HOST/express_cart"
 }

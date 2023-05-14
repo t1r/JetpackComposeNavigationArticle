@@ -242,5 +242,21 @@ fun MainNavigation(
                 navigate()
             }
         }
+
+        composable(
+            route = "expressDeepLink",
+            deepLinks = listOf(
+                navDeepLink { uriPattern = DeeplinkConst.EXPRESS_CART },
+            ),
+        ) {
+            val navigate by rememberUpdatedState {
+                navController.popBackStack("expressDeepLink", true)
+                navController.navigate(MainScreen.Cart.buildRoute())
+                navController.navigate(ExpressScreen.ExpressGraph.buildRoute(ExpressScreenType.Cart))
+            }
+            LaunchedEffect(Unit) {
+                navigate()
+            }
+        }
     }
 }
